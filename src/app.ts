@@ -3,18 +3,22 @@ import { Server } from "http";
 import {LoggerService} from "./logger/logger.service";
 import {UserController} from "./users/user.controller";
 import {ExeptionFilter} from "./errors/exeption.filter";
+import {inject, injectable} from "inversify";
+import "reflect-metadata";
+import {TYPES} from "./common/types";
 
+@injectable()
 export class App {
     app: Express;
     server: Server | undefined;
     port: number;
     logger: LoggerService;
-    userController: UserController
-    exeptionFilter: ExeptionFilter
+    userController: UserController;
+    exeptionFilter: ExeptionFilter;
     constructor(
-        logger: LoggerService,
-        userController: UserController,
-        exeptionFilter: ExeptionFilter
+        @inject(TYPES.LoggerService) logger: LoggerService,
+        @inject(TYPES.UserController) userController: UserController,
+        @inject(TYPES.ExeptionFilter) exeptionFilter: ExeptionFilter,
     ) {
         this.app = express();
         this.port = 8000;
@@ -38,5 +42,4 @@ export class App {
             this.logger.info(`Server is running on port ${this.port}`);
         });
     }
-
 }
