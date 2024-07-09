@@ -1,4 +1,4 @@
-import express, {Express, NextFunction, Request, Response} from "express";
+import express, {Express} from "express";
 import { Server } from "http";
 import {LoggerService} from "./logger/logger.service";
 import {UserController} from "./users/user.controller";
