@@ -9,7 +9,10 @@ import {TYPES} from "../common/types";
 @injectable()
 export class ExeptionFilter implements IExeptionFilterInterface {
     private logger: LoggerService;
-    constructor(@inject(TYPES.LoggerService) logger: LoggerService) {
+
+    constructor(
+        @inject(TYPES.LoggerService) logger: LoggerService
+    ) {
         this.logger = logger;
     }
     catch(err: Error | HttpError, req: Request, res: Response, next: NextFunction) {
