@@ -16,14 +16,14 @@ export class LoggerService implements ILogger {
     }
 
     info(...args: unknown[]) {
-        this.logger.info(args);
+        this.logger.info(args.join(' '));
     }
 
     error(...args: unknown[]) {
-        this.logger.error(args);
+        this.logger.error(args.join(' '));
     }
 
     warn(...args: unknown[]) {
-        this.logger.warn(args);
+        this.logger.warn(args.join(' '));
     }
 }

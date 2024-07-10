@@ -6,21 +6,24 @@ import {Container, ContainerModule} from "inversify";
 import {TYPES} from "./common/types";
 import {ILogger} from "./logger/logger.service.interface";
 import "reflect-metadata";
+import {IExeptionFilter} from "./errors/exeption.filter.interface";
 
 async function bootstrap() {
-    const myContainerModule = new ContainerModule((
+    const containerModule = new ContainerModule((
         bind,
     ) => {
         bind<App>(TYPES.App).to(App).inSingletonScope();
-        bind<ILogger>(TYPES.LoggerService).to(LoggerService).inSingletonScope();
+        bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
         bind<UserController>(TYPES.UserController).to(UserController).inSingletonScope();
-        bind<ExeptionFilter>(TYPES.ExeptionFilter).to(ExeptionFilter).inSingletonScope();
+        bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
     });
 
-    const container = new Container({ autoBindInjectable: true });
-    container.load(myContainerModule);
-    const app = await container.getAsync<App>(App);
+    const container = new Container();
+    container.load(containerModule);
+    const app = container.get<App>(TYPES.App);
     app.init();
+
+    return { app, container }
 }
 
 bootstrap();
