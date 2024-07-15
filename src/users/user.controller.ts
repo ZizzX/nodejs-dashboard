@@ -1,10 +1,12 @@
 import { BaseController } from '../common/base.controller';
 import { NextFunction, Request, Response } from 'express';
-import { inject, injectable } from 'inversify';
+import { decorate, inject, injectable } from 'inversify';
 import 'reflect-metadata';
 import { TYPES } from '../common/types';
 import { ILogger } from '../logger/logger.service.interface';
 import { HttpError } from '../errors/http-error.class';
+
+decorate(injectable(), BaseController);
 
 @injectable()
 export class UserController extends BaseController {

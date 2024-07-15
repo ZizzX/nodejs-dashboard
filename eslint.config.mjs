@@ -1,6 +1,6 @@
-import globals from "globals";
-import tseslint from "typescript-eslint";
-import eslintConfigPrettier from "eslint-config-prettier";
+import globals from 'globals';
+import tseslint from 'typescript-eslint';
+import eslintConfigPrettier from 'eslint-config-prettier';
 
 export default [
   {files: ["**/*.{js,mjs,cjs,ts}"]},
@@ -18,6 +18,8 @@ export default [
         "@typescript-eslint/no-explicit-any": "off",
         "max-len": ["error", { "code": 120, "ignoreUrls": true }],
         "@typescript-eslint/explicit-function-return-type": "error",
+        "@typescript-eslint/member-ordering": "warn",
+        "brace-style": ["error", "stroustrup"],
       }
   }],
   eslintConfigPrettier,

@@ -16,7 +16,7 @@ async function bootstrap(): Promise<{ app: App; container: Container }> {
 		bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
 	});
 
-	const container = new Container();
+	const container = new Container({ autoBindInjectable: true });
 	container.load(containerModule);
 	const app = container.get<App>(TYPES.App);
 	app.init();

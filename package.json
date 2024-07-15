@@ -9,7 +9,8 @@
     "start": "node ./dist/main.js",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ./src/**"
+    "lint": "eslint ./src/**",
+    "lint:fix": "eslint ./src/** --fix"
   },
   "author": "Issapov Aziz",
   "license": "ISC",
