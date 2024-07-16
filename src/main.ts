@@ -7,21 +7,22 @@ import { TYPES } from './common/types';
 import { ILogger } from './logger/logger.service.interface';
 import 'reflect-metadata';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
+import { IUserControllerInterface } from './users/user.controller.interface';
 
-async function bootstrap(): Promise<{ app: App; container: Container }> {
-	const containerModule = new ContainerModule((bind) => {
-		bind<App>(TYPES.App).to(App).inSingletonScope();
-		bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
-		bind<UserController>(TYPES.UserController).to(UserController).inSingletonScope();
-		bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
-	});
+const appBindings = new ContainerModule((bind) => {
+	bind<App>(TYPES.App).to(App).inSingletonScope();
+	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
+	bind<IUserControllerInterface>(TYPES.IUserInterface).to(UserController).inSingletonScope();
+	bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
+});
 
-	const container = new Container({ autoBindInjectable: true });
-	container.load(containerModule);
-	const app = container.get<App>(TYPES.App);
+function bootstrap(): { app: App; appContainer: Container } {
+	const appContainer = new Container({ autoBindInjectable: true });
+	appContainer.load(appBindings);
+	const app = appContainer.get<App>(TYPES.App);
 	app.init();
 
-	return { app, container };
+	return { app, appContainer };
 }
 
-bootstrap();
+const { app, appContainer } = bootstrap();

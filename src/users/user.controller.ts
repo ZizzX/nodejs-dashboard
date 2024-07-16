@@ -5,11 +5,12 @@ import 'reflect-metadata';
 import { TYPES } from '../common/types';
 import { ILogger } from '../logger/logger.service.interface';
 import { HttpError } from '../errors/http-error.class';
+import { IUserControllerInterface } from './user.controller.interface';
 
 decorate(injectable(), BaseController);
 
 @injectable()
-export class UserController extends BaseController {
+export class UserController extends BaseController implements IUserControllerInterface {
 	constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
 		super(loggerService);
 		this.bindRoutes([
