@@ -25,4 +25,4 @@ function bootstrap(): { app: App; appContainer: Container } {
 	return { app, appContainer };
 }
 
-const { app, appContainer } = bootstrap();
+bootstrap();
