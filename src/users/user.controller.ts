@@ -6,6 +6,8 @@ import { TYPES } from '../common/types';
 import { ILogger } from '../logger/logger.service.interface';
 import { HttpError } from '../errors/http-error.class';
 import { IUserControllerInterface } from './user.controller.interface';
+import { UserLoginDto } from './dto/user.login.dto';
+import { UserRegisterDto } from './dto/user.register.dto';
 
 decorate(injectable(), BaseController);
 
@@ -27,11 +29,11 @@ export class UserController extends BaseController implements IUserControllerInt
 		]);
 	}
 
-	login(req: Request, res: Response, next: NextFunction): void {
+	login(req: Request<object, object, UserLoginDto>, res: Response, next: NextFunction): void {
 		next(new HttpError(401, 'Unauthorized', 'login'));
 	}
 
-	register(req: Request, res: Response, next: NextFunction): void {
-		this.send(res, 200, 'register');
+	register(req: Request<object, object, UserRegisterDto>, res: Response, next: NextFunction): void {
+		this.send(res, 200, req.body);
 	}
 }

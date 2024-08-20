@@ -27,7 +27,7 @@ export class App {
 	}
 
 	useRoutes(): void {
-		this.app.use('/users', this.userController.router);
+		this.app.use('/user', this.userController.router);
 	}
 
 	useExeptionFilters(): void {
