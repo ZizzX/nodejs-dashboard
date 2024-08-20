@@ -8,6 +8,7 @@ import { HttpError } from '../errors/http-error.class';
 import { IUserControllerInterface } from './user.controller.interface';
 import { UserLoginDto } from './dto/user.login.dto';
 import { UserRegisterDto } from './dto/user.register.dto';
+import { User } from './user.entity';
 
 decorate(injectable(), BaseController);
 
@@ -33,7 +34,17 @@ export class UserController extends BaseController implements IUserControllerInt
 		next(new HttpError(401, 'Unauthorized', 'login'));
 	}
 
-	register(req: Request<object, object, UserRegisterDto>, res: Response, next: NextFunction): void {
-		this.send(res, 200, req.body);
+	async register(
+		{ body }: Request<object, object, UserRegisterDto>,
+		res: Response,
+		next: NextFunction,
+	): Promise<void> {
+		const user = new User(body.name, body.email);
+		await user.setPassword(body.password);
+		this.ok(res, {
+			name: user.name,
+			email: user.email,
+			password: user.password,
+		});
 	}
 }
