@@ -8,12 +8,15 @@ import { ILogger } from './logger/logger.service.interface';
 import 'reflect-metadata';
 import { IExeptionFilter } from './errors/exeption.filter.interface';
 import { IUserControllerInterface } from './users/user.controller.interface';
+import { UserService } from './users/user.service';
+import { IUserService } from './users/user.service.interface';
 
 const appBindings = new ContainerModule((bind) => {
 	bind<App>(TYPES.App).to(App).inSingletonScope();
 	bind<ILogger>(TYPES.ILogger).to(LoggerService).inSingletonScope();
 	bind<IUserControllerInterface>(TYPES.IUserInterface).to(UserController).inSingletonScope();
 	bind<IExeptionFilter>(TYPES.IExeptionFilter).to(ExeptionFilter).inSingletonScope();
+	bind<IUserService>(TYPES.IUserService).to(UserService).inSingletonScope();
 });
 
 function bootstrap(): { app: App; appContainer: Container } {

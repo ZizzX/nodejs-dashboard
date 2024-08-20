@@ -14,7 +14,10 @@ decorate(injectable(), BaseController);
 
 @injectable()
 export class UserController extends BaseController implements IUserControllerInterface {
-	constructor(@inject(TYPES.ILogger) private loggerService: ILogger) {
+	constructor(
+		@inject(TYPES.ILogger) private loggerService: ILogger,
+		@inject(TYPES.IUserService) private userService: UserService,
+	) {
 		super(loggerService);
 		this.bindRoutes([
 			{
@@ -39,8 +42,7 @@ export class UserController extends BaseController implements IUserControllerInt
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const result = new UserService();
-		const user = await result.createUser(body);
+		const user = await this.userService.createUser(body);
 
 		if (!user) {
 			next(new HttpError(400, 'Bad Request', 'register'));
