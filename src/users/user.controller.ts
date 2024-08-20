@@ -8,7 +8,7 @@ import { HttpError } from '../errors/http-error.class';
 import { IUserControllerInterface } from './user.controller.interface';
 import { UserLoginDto } from './dto/user.login.dto';
 import { UserRegisterDto } from './dto/user.register.dto';
-import { User } from './user.entity';
+import { UserService } from './user.service';
 
 decorate(injectable(), BaseController);
 
@@ -39,8 +39,14 @@ export class UserController extends BaseController implements IUserControllerInt
 		res: Response,
 		next: NextFunction,
 	): Promise<void> {
-		const user = new User(body.name, body.email);
-		await user.setPassword(body.password);
+		const result = new UserService();
+		const user = await result.createUser(body);
+
+		if (!user) {
+			next(new HttpError(400, 'Bad Request', 'register'));
+			return;
+		}
+
 		this.ok(res, {
 			name: user.name,
 			email: user.email,
