@@ -3,8 +3,8 @@ import { Server } from 'http';
 import 'reflect-metadata';
 import { inject, injectable } from 'inversify';
 import { TYPES } from './common/types';
-import { ILogger } from './logger/logger.service.interface';
-import { IExeptionFilter } from './errors/exeption.filter.interface';
+import { ILogger }                  from './logger/logger.service.interface';
+import { IExceptionFilter }         from './errors/exeption.filter.interface';
 import { IUserControllerInterface } from './users/user.controller.interface';
 
 @injectable()
@@ -15,7 +15,7 @@ export class App {
 	constructor(
 		@inject(TYPES.ILogger) private logger: ILogger,
 		@inject(TYPES.IUserInterface) private userController: IUserControllerInterface,
-		@inject(TYPES.IExeptionFilter) private exeptionFilter: IExeptionFilter,
+		@inject(TYPES.IExceptionFilter) private exceptionFilter: IExceptionFilter,
 	) {
 		this.app = express();
 		this.port = 8000;
@@ -30,14 +30,14 @@ export class App {
 		this.app.use('/user', this.userController.router);
 	}
 
-	useExeptionFilters(): void {
-		this.app.use(this.exeptionFilter.catch.bind(this.exeptionFilter));
+	useExceptionFilters(): void {
+		this.app.use(this.exceptionFilter.catch.bind(this.exceptionFilter));
 	}
 
 	public async init(): Promise<void> {
 		this.useMiddlewares();
 		this.useRoutes();
-		this.useExeptionFilters();
+		this.useExceptionFilters();
 		this.server = this.app.listen(this.port, () => {
 			this.logger.info(`Server is running on port ${this.port}`);
 		});
